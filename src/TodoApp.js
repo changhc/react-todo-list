@@ -1,107 +1,151 @@
 import React, { Component } from 'react';
 import TodoList from './TodoList';
 import CountDisplay from './CountDisplay';
+import './TodoApp.css';
 
 class TodoApp extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			todoList: new Map(),
-			doneCount: 0,
-			todoCount: 0,
-			listKeyCount: 0,
-			itemKeyCount: -1,
-		};
-		this.createNewList = this.createNewList.bind(this);
-		// this.renderTodoList = this.renderTodoList.bind(this);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+      todoList: new Map(),
+      doneCount: 0,
+      todoCount: 0,
+      listKeyCount: 0,
+      itemKeyCount: -1,
+    };
+    this.createNewList = this.createNewList.bind(this);
+    this.addItem = this.addItem.bind(this);
+    this.removeItem = this.removeItem.bind(this);
+    this.checkBoxClicked = this.checkBoxClicked.bind(this);
+    this.removeList = this.removeList.bind(this);
+    this.slotChanged = this.slotChanged.bind(this);
+  }
 
-	createNewList() {
-		let todoList_ = this.state.todoList;
-		let count = this.state.listKeyCount;
-		todoList_.set(count, {
-			key: this.state.listKeyCount,
-			title: 'New Todo List',
-			todoItem: new Map(),
-		});
-		count++;
-		this.setState({todoList: todoList_, listKeyCount: count});
-	}
+  createNewList() {
+    const todoListT = this.state.todoList;
+    let count = this.state.listKeyCount;
+    todoListT.set(count, {
+      key: this.state.listKeyCount,
+      title: 'New Todo List',
+      todoItem: new Map(),
+    });
+    count += 1;
+    this.setState({ todoList: todoListT, listKeyCount: count });
+  }
 
-	addItem(listId) {
-		let todoList_ = this.state.todoList;
-		let count = this.state.itemKeyCount, todoCount_ = this.state.todoCount;
-		++count;
-		++todoCount_;
-		const date = new Date(Date.now());
-		todoList_.get(listId).todoItem.set(count, {
-			key: count,
-			id: count,
-			dueDate: `${date.getMonth()}/${date.getDay()}`,
-			content: 'New Item',
-			done: false,
-		});
-		this.setState({ itemKeyCount: count, todoList: todoList_, todoCount: todoCount_});
-	}
+  addItem(listId) {
+    const todoListT = this.state.todoList;
+    let count = this.state.itemKeyCount;
+    let todoCountT = this.state.todoCount;
+    count += 1;
+    todoCountT += 1;
+    const date = new Date(Date.now());
+    todoListT.get(listId).todoItem.set(count, {
+      key: count,
+      id: count,
+      dueDate: `${date.getMonth()}/${date.getDay()}`,
+      content: 'New Item',
+      done: false,
+    });
+    this.setState({ itemKeyCount: count, todoList: todoListT, todoCount: todoCountT });
+  }
 
-	removeItem(listId, itemId) {
-		let todoList_ = this.state.todoList, doneCount_ = this.state.doneCount, todoCount_ = this.state.todoCount;
-		let status = todoList_.get(listId).todoItem.get(itemId).done;
-		doneCount_ -= (status) ? 1 : 0;
-		todoCount_ -= (status) ? 0 : 1;
-		todoList_.get(listId).todoItem.delete(itemId);
-		this.setState({todoList: todoList_, doneCount: doneCount_, todoCount: todoCount_});
-	}
+  removeItem(listId, itemId) {
+    const todoListT = this.state.todoList;
+    let doneCountT = this.state.doneCount;
+    let todoCountT = this.state.todoCount;
+    const status = todoListT.get(listId).todoItem.get(itemId).done;
+    doneCountT -= (status) ? 1 : 0;
+    todoCountT -= (status) ? 0 : 1;
+    todoListT.get(listId).todoItem.delete(itemId);
+    this.setState({ todoList: todoListT, doneCount: doneCountT, todoCount: todoCountT });
+  }
 
-	checkBoxClicked(listId, itemId) {
-		let todoList_ = this.state.todoList, todoCount_ = this.state.todoCount, doneCount_ = this.state.doneCount;
-		let item = todoList_.get(listId).todoItem.get(itemId);
-		item.done = !item.done;
-		todoList_.get(listId).todoItem.set(itemId, item);
-		todoCount_ += (item.done) ? -1 : 1;
-		doneCount_ += (item.done) ? 1 : -1;
-		this.setState({todoList: todoList_, todoCount: todoCount_, doneCount: doneCount_});
-	}
+  checkBoxClicked(listId, itemId) {
+    const todoListT = this.state.todoList;
+    let todoCountT = this.state.todoCount;
+    let doneCountT = this.state.doneCount;
+    const item = todoListT.get(listId).todoItem.get(itemId);
+    item.done = !item.done;
+    todoListT.get(listId).todoItem.set(itemId, item);
+    todoCountT += (item.done) ? -1 : 1;
+    doneCountT += (item.done) ? 1 : -1;
+    this.setState({ todoList: todoListT, todoCount: todoCountT, doneCount: doneCountT });
+  }
 
-	removeList(listId) {
-		let todoList_ = this.state.todoList;
-		let doneCount_ = this.state.doneCount, todoCount_ = this.state.todoCount;
-		todoList_.get(listId).todoItem.forEach((item) => {
-			doneCount_ -= (item.done) ? 1 : 0;
-			todoCount_ -= (item.done) ? 0 : 1;
-		});
-		todoList_.delete(listId);
-		this.setState({todoList: todoList_, doneCount: doneCount_, todoCount: todoCount_});
-	}
+  removeList(listId) {
+    const todoListT = this.state.todoList;
+    let doneCountT = this.state.doneCount;
+    let todoCountT = this.state.todoCount;
+    todoListT.get(listId).todoItem.forEach((item) => {
+      doneCountT -= (item.done) ? 1 : 0;
+      todoCountT -= (item.done) ? 0 : 1;
+    });
+    todoListT.delete(listId);
+    this.setState({ todoList: todoListT, doneCount: doneCountT, todoCount: todoCountT });
+  }
 
-	slotChanged(listId, itemId, slot, content) {
+  slotChanged(listId, itemId, slot, context) {
+    const todoListT = this.state.todoList;
+    if (itemId !== -1) {
+      const item = todoListT.get(listId).todoItem.get(itemId);
+      if (slot === 0) {         // dueDate
+        item.dueDate = context;
+      } else if (slot === 1) {  // itemContent
+        item.content = context;
+      }
+    } else {    // list title
+      const list = todoListT.get(listId);
+      list.title = context;
+    }
+    this.setState({ todoList: todoListT });
+  }
 
-	}
+  renderTodoList(list) {
+    return (
+      <TodoList
+        key={list.key}
+        id={list.key}
+        title={list.title}
+        itemList={list.todoItem}
+        addItemButtonClicked={this.addItem}
+        removeItemButtonClicked={this.removeItem}
+        itemCheckBoxClicked={this.checkBoxClicked}
+        removeListButtonClicked={this.removeList}
+        slotChanged={this.slotChanged}
+      />
+    );
+  }
 
-	renderTodoList(list) {
-		return (
-			<TodoList
-				key={list.key}
-				id={list.key}
-				title={list.title}
-				itemList={list.todoItem}
-				addItemButtonClicked={this.addItem.bind(this)}
-				removeItemButtonClicked={this.removeItem.bind(this)}
-				itemCheckBoxClicked={this.checkBoxClicked.bind(this)}
-				removeListButtonClicked={this.removeList.bind(this)}
-			/>
-		);
-	}
-
-	render() {
-		return (
-			<div>
-				<CountDisplay doneCount={this.state.doneCount} todoCount={this.state.todoCount} />
-				<button id="createListButton" onClick={this.createNewList}>Create a new list</button>
-				{Array.from(this.state.todoList.values()).map(this.renderTodoList, this)}
-			</div>
-		);
-	}
+  render() {
+    return (
+      <div>
+        <div className="head">
+          <div>
+            <div className="title-block">
+              <div className="title">
+                <h1>TODOs</h1>
+              </div>
+              <div className="button">
+                <button
+                  className="fa fa-plus fa-2x"
+                  id="createListButton"
+                  onClick={this.createNewList}
+                />
+              </div>
+            </div>
+          </div>
+          <div />
+          <div>
+            <CountDisplay doneCount={this.state.doneCount} todoCount={this.state.todoCount} />
+          </div>
+        </div>
+        <div className="todoLists">
+          {Array.from(this.state.todoList.values()).map(this.renderTodoList, this)}
+        </div>
+      </div>
+    );
+  }
 }
 
 export default TodoApp;

@@ -11,6 +11,7 @@ module.exports = {
     },
 	"rules": {
       'no-console': 0,
-      'no-else-return': 0,
+      'jsx-a11y/no-static-element-interactions': 0,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     },
 };

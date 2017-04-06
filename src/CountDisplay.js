@@ -1,14 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class CountDisplay extends Component {
-	render() {
-		return (
-			<div>
-				<div>Done: {this.props.doneCount}</div>
-				<div>Todo: {this.props.todoCount}</div>
-			</div>
-		);
-	}
-}
+const CountDisplay = function CountDisplay(props) {
+  return (
+    <div className="countDisplay">
+      <div className="displayItem">Done: {props.doneCount}</div>
+      <div className="displayItem">Todo: {props.todoCount}</div>
+    </div>
+  );
+};
+
+CountDisplay.propTypes = {
+  doneCount: React.PropTypes.number.isRequired,
+  todoCount: React.PropTypes.number.isRequired,
+};
 
 export default CountDisplay;
