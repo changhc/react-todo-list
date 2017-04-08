@@ -8,6 +8,21 @@ const keyDown = (event) => {
   }
 };
 
+const dateDiff = (dueDate) => {
+  const milisPerDay = 24 * 60 * 60 * 1000;
+  const today = new Date(Date.now());
+  const date = new Date(`${dueDate}/${today.getFullYear()}`);
+  const daysLeft = Math.ceil((date.getTime() - today.getTime()) / milisPerDay);
+  if (daysLeft <= 7 && daysLeft > 3) {
+    return 'still-have-time';
+  } else if (daysLeft <= 3 && daysLeft > 1) {
+    return 'coming';
+  } else if (daysLeft <= 1 && daysLeft >= 0) {
+    return 'now';
+  }
+  return '';
+};
+
 class TodoItem extends Component {
   constructor() {
     super();
@@ -24,6 +39,7 @@ class TodoItem extends Component {
   }
 
   render() {
+    const emergency = dateDiff(this.props.dueDate);
     return (
       <div className="todoItem">
         <div className="checkBox">
@@ -38,7 +54,7 @@ class TodoItem extends Component {
         <div
           contentEditable
           suppressContentEditableWarning
-          className={`dueDate editable ${(this.props.done ? 'done' : '')}`}
+          className={`dueDate editable ${emergency} ${(this.props.done ? 'done' : '')}`}
           onKeyDown={keyDown}
           onBlur={this.contextChanged}
         >{this.props.dueDate}</div>

@@ -7,14 +7,23 @@ body {
 }
 
 .head {
-    width: 100%;
-    margin: 0 2em;
+    width: 60%;
+    margin: 0 auto;
+
 }
 
 .head > div {
     width: 33%;
     vertical-align: middle;
     display: inline-block;
+}
+
+.head .button {
+    text-align: center;
+}
+
+.head .button button {
+    margin: 0 1em;
 }
 
 .title-block {
@@ -81,6 +90,7 @@ body {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
 }
 
 .todoItem:hover {
@@ -99,7 +109,6 @@ button {
     overflow: hidden;
     outline:none;
 	color: #AAA;
-    float: right;
     padding: 0 3px;
 }
 
@@ -112,6 +121,11 @@ button:hover {
 	display: inline-table;
 }
 
+.todoLists {
+    margin: 0 auto;
+    width: 90%;
+}
+
 .todoItemList {
     border: 1px solid rgba(0, 0, 0, 0.1);
     height: 300px;
@@ -121,13 +135,8 @@ button:hover {
     padding: 5px;
 }
 
-.countDisplay {
-    float: right;
-}
-
 .displayItem {
-    display: inline-block;
-    margin: 0 2em;
+    text-align: center;
 }
 
 .todoItem {
@@ -141,8 +150,23 @@ button:hover {
     text-align: center;
 }
 
+.dueDate.still-have-time {
+    color: green;
+}
+
+.dueDate.coming {
+    color: darkorange;
+    font-weight: 500;
+}
+
+.dueDate.now {
+    color: red;
+    font-weight: 900;
+}
+
 .dueDate.done {
     color: rgba(0, 0, 0, 0.5);
+    font-weight: normal;
 }
 
 .itemContent {

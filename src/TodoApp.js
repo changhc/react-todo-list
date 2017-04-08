@@ -19,6 +19,7 @@ class TodoApp extends Component {
     this.checkBoxClicked = this.checkBoxClicked.bind(this);
     this.removeList = this.removeList.bind(this);
     this.slotChanged = this.slotChanged.bind(this);
+    this.clearDoneItems = this.clearDoneItems.bind(this);
   }
 
   createNewList() {
@@ -43,7 +44,7 @@ class TodoApp extends Component {
     todoListT.get(listId).todoItem.set(count, {
       key: count,
       id: count,
-      dueDate: `${date.getMonth()}/${date.getDay()}`,
+      dueDate: `${date.getMonth() + 1}/${date.getDate()}`,
       content: 'New Item',
       done: false,
     });
@@ -101,6 +102,20 @@ class TodoApp extends Component {
     this.setState({ todoList: todoListT });
   }
 
+  clearDoneItems() {
+    const todoListT = this.state.todoList;
+    let doneCountT = this.state.doneCount;
+    todoListT.forEach((list) => {
+      list.todoItem.forEach((item) => {
+        if (item.done) {
+          doneCountT -= 1;
+          list.todoItem.delete(item.key);
+        }
+      });
+    });
+    this.setState({ todoList: todoListT, doneCount: doneCountT });
+  }
+
   renderTodoList(list) {
     return (
       <TodoList
@@ -122,20 +137,23 @@ class TodoApp extends Component {
       <div>
         <div className="head">
           <div>
-            <div className="title-block">
-              <div className="title">
-                <h1>TODOs</h1>
-              </div>
-              <div className="button">
-                <button
-                  className="fa fa-plus fa-2x"
-                  id="createListButton"
-                  onClick={this.createNewList}
-                />
-              </div>
+            <div className="title">
+              <h1>TODOs</h1>
             </div>
           </div>
-          <div />
+          <div className="button">
+            <button
+              title="New List"
+              className="fa fa-plus fa-2x"
+              id="createListButton"
+              onClick={this.createNewList}
+            />
+            <button
+              title="Clear Done Jobs"
+              className="fa fa-recycle fa-2x"
+              onClick={this.clearDoneItems}
+            />
+          </div>
           <div>
             <CountDisplay doneCount={this.state.doneCount} todoCount={this.state.todoCount} />
           </div>

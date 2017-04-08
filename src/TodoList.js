@@ -16,7 +16,6 @@ class TodoList extends Component {
   }
 
   titleChanged(event) {
-    console.log(event.target.textContent);
     (() => this.props.slotChanged(
       this.props.id,
       -1,
@@ -55,12 +54,14 @@ class TodoList extends Component {
             <div className="button">
               <div className="buttons">
                 <button
-                  className="fa fa-times"
-                  onClick={() => this.props.removeListButtonClicked(this.props.id)}
-                />
-                <button
+                  title="New Item"
                   className="fa fa-plus"
                   onClick={() => this.props.addItemButtonClicked(this.props.id)}
+                />
+                <button
+                  title="Remove this list"
+                  className="fa fa-times"
+                  onClick={() => this.props.removeListButtonClicked(this.props.id)}
                 />
               </div>
             </div>
