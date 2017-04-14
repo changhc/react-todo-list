@@ -23,7 +23,7 @@ body {
 }
 
 .head .button button {
-    margin: 0 1em;
+    width: 50%;
 }
 
 .title-block {
