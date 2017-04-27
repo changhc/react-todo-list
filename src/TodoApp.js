@@ -12,6 +12,7 @@ class TodoApp extends Component {
       todoCount: 0,
       listKeyCount: 0,
       itemKeyCount: -1,
+      filter: -1,
     };
     this.createNewList = this.createNewList.bind(this);
     this.addItem = this.addItem.bind(this);
@@ -20,6 +21,7 @@ class TodoApp extends Component {
     this.removeList = this.removeList.bind(this);
     this.slotChanged = this.slotChanged.bind(this);
     this.clearDoneItems = this.clearDoneItems.bind(this);
+    this.changeFilter = this.changeFilter.bind(this);
   }
 
   createNewList() {
@@ -116,6 +118,12 @@ class TodoApp extends Component {
     this.setState({ todoList: todoListT, doneCount: doneCountT });
   }
 
+  changeFilter() {
+    let filterT = this.state.filter + 1;
+    filterT += 1;
+    this.setState({ filter: (filterT % 3) - 1 });
+  }
+
   renderTodoList(list) {
     return (
       <TodoList
@@ -128,11 +136,23 @@ class TodoApp extends Component {
         itemCheckBoxClicked={this.checkBoxClicked}
         removeListButtonClicked={this.removeList}
         slotChanged={this.slotChanged}
+        filter={this.state.filter}
       />
     );
   }
 
   render() {
+    let filterText;
+    switch (this.state.filter) {
+      case 1:
+        filterText = 'Finished';
+        break;
+      case 0:
+        filterText = 'Ongoing';
+        break;
+      default:
+        filterText = 'All';
+    }
     return (
       <div>
         <div className="head">
@@ -149,7 +169,11 @@ class TodoApp extends Component {
               onClick={this.createNewList}
             />
             <button
-              title="Clear Done Jobs"
+              title="Change Filter"
+              onClick={this.changeFilter}
+            >{filterText}</button>
+            <button
+              title="Clear Finished Jobs"
               className="fa fa-recycle fa-2x"
               onClick={this.clearDoneItems}
             />

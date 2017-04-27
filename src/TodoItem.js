@@ -40,8 +40,9 @@ class TodoItem extends Component {
 
   render() {
     const emergency = dateDiff(this.props.dueDate);
+    const hidden = ((this.props.filter === 1 && this.props.done) || (this.props.filter === 0 && !this.props.done) || this.props.filter === -1) ? '' : 'hidden';
     return (
-      <div className="todoItem">
+      <div className={`todoItem ${hidden}`}>
         <div className="checkBox">
           <input
             type="checkbox"
@@ -86,6 +87,7 @@ TodoItem.propTypes = {
   content: React.PropTypes.string.isRequired,
   removeItemButtonClicked: React.PropTypes.func.isRequired,
   slotChanged: React.PropTypes.func.isRequired,
+  filter: React.PropTypes.number.isRequired,
 };
 
 export default TodoItem;

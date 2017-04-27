@@ -3,8 +3,8 @@ import React from 'react';
 const CountDisplay = function CountDisplay(props) {
   return (
     <div className="countDisplay">
-      <div className="displayItem">Done: {props.doneCount}</div>
-      <div className="displayItem">Todo: {props.todoCount}</div>
+      <div className="displayItem">Finished&#9;: {props.doneCount}</div>
+      <div className="displayItem">Ongoing&#9;: {props.todoCount}</div>
     </div>
   );
 };

@@ -35,6 +35,7 @@ class TodoList extends Component {
         removeItemButtonClicked={this.props.removeItemButtonClicked}
         itemCheckBoxClicked={this.props.itemCheckBoxClicked}
         slotChanged={this.props.slotChanged}
+        filter={this.props.filter}
       />
     );
   }
@@ -86,6 +87,7 @@ TodoList.propTypes = {
   addItemButtonClicked: React.PropTypes.func.isRequired,
   removeListButtonClicked: React.PropTypes.func.isRequired,
   slotChanged: React.PropTypes.func.isRequired,
+  filter: React.PropTypes.number.isRequired,
 };
 
 export default TodoList;

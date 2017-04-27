@@ -23,7 +23,7 @@ body {
 }
 
 .head .button button {
-    width: 50%;
+    width: 33%;
 }
 
 .title-block {
@@ -78,6 +78,10 @@ body {
     display: inline-block;
     width: 100%;
     position: relative;
+}
+
+.todoItem.hidden {
+    display: none;
 }
 
 .todoItem > div {
