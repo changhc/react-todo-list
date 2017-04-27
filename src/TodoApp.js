@@ -51,6 +51,9 @@ class TodoApp extends Component {
       done: false,
     });
     this.setState({ itemKeyCount: count, todoList: todoListT, todoCount: todoCountT });
+    if (this.state.filter === 1) {
+      this.setState({ filter: -1 });
+    }
   }
 
   removeItem(listId, itemId) {
@@ -115,7 +118,7 @@ class TodoApp extends Component {
         }
       });
     });
-    this.setState({ todoList: todoListT, doneCount: doneCountT });
+    this.setState({ todoList: todoListT, doneCount: doneCountT, filter: -1 });
   }
 
   changeFilter() {
