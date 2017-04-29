@@ -4,5 +4,5 @@ import TodoApp from './TodoApp';
 
 ReactDOM.render(
   <TodoApp />,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
